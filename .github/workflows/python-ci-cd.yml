@@ -1,4 +1,4 @@
-name: Simple Python Calculator CI/CD
+name: Simple Python Calculator CI/C
 
 on:
   push:
@@ -29,3 +29,4 @@ jobs:
     steps:
       - name: Deploy
         run: echo "Deploying calculator (қарапайым эмуляция)"
+
