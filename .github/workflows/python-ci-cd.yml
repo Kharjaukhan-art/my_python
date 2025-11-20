@@ -1,4 +1,4 @@
-name: Simple Python Calculator CI/C
+name: Simple Python Calculator CI/CD
 
 on:
   push:
@@ -23,10 +23,32 @@ jobs:
       - name: Run tests
         run: pytest
 
-  deploy:
+  build:
     needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+
+      - name: Build EXE
+        run: pyinstaller --onefile calculator.py
+
+      - name: Upload built file
+        uses: actions/upload-artifact@v3
+        with:
+          name: calculator-build
+          path: dist/
+
+  deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Deploy
         run: echo "Deploying calculator (қарапайым эмуляция)"
-
