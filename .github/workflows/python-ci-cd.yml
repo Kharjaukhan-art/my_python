@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 name: Simple Python Calculator CI/CD
 
 on:
@@ -21,91 +20,11 @@ jobs:
       - name: Install pytest
         run: pip install pytest
 
-      - name: Run tests
-        run: pytest
+      - name: Run tests with XML report
+        run: pytest --junitxml=report.xml
 
-  build:
-    needs: test  # тек тест сәтті өткенде ғана жүреді
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      - name: Install PyInstaller
-        run: pip install pyinstaller
-
-      - name: Build EXE
-        run: pyinstaller --onefile calculator.py
-
-      - name: Upload built file
+      - name: Upload test report
         uses: actions/upload-artifact@v3
         with:
-          name: calculator-build
-          path: dist/
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy
-        run: echo "Deploying calculator (қарапайым эмуляция)"
-=======
-name: Simple Python Calculator CI/CD
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      - name: Install pytest
-        run: pip install pytest
-
-      - name: Run tests
-        run: pytest
-
-  build:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      - name: Install PyInstaller
-        run: pip install pyinstaller
-
-      - name: Build EXE
-        run: pyinstaller --onefile calculator.py
-
-      - name: Upload built file
-        uses: actions/upload-artifact@v3
-        with:
-          name: calculator-build
-          path: dist/
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy
-        run: echo "Deploying calculator (қарапайым эмуляция)"
->>>>>>> origin/main
+          name: pytest-report
+          path: report.xml
