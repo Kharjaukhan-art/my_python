@@ -1,6 +1,6 @@
 
 
-name: Simple Python Calculator CI/CD
+oname: Simple Python Calculator CI/CD
 
 on:
   push:
